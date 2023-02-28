@@ -36,7 +36,6 @@ public:
 
         for (int i = 0; i<BLOCK_TRANSACTION_AMMOUNT; i++)
         {
-            terminal_log(to_string(data[i]));
             stringified += to_string(data[i]);
         }
 

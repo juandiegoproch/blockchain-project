@@ -18,7 +18,7 @@ int main(void)
     b.push(Transaction("h","h",7));
     b.push(Transaction("i","i",8));
     b.push(Transaction("j","j",9));
-    b.push(Transaction("i","i",10));
+    b.push(Transaction("k","k",10));
 
 
 

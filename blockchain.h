@@ -32,10 +32,10 @@ public:
         if (n_transact >= BLOCK_TRANSACTION_AMMOUNT)
         {
             // push the block to the blocks vector
-            n_transact = 0;
             uint512_t old_hash = performPOW();
             
             // new block ready and loaded
+            n_transact = 0;
             current_block_id++;
             blocks.push_back(Block(current_block_id,old_hash));
         }
@@ -50,10 +50,11 @@ private:
 
     bool blockIsValid()
     {
-        uint512_t hash_ = blocks[current_block_id - 1].hash_self();
+        uint512_t hash_ = blocks[current_block_id].hash_self();
         to_string(hash_);
         std::string block_to_insert_hash = to_string(hash_);
-        for (int i = 0; i<difficulty; i++)
+        // skip 0x
+        for (int i = 2; i<difficulty; i++)
         {
             if (block_to_insert_hash[i] != '0') return false;
         }
@@ -64,6 +65,7 @@ private:
     {
         while (!blockIsValid())
         {
+            terminal_log("trying a new nonce");
             blocks[current_block_id].nonce++; // i have no issue with this being trash values
         }
         terminal_log("Found Valid Nonce");
