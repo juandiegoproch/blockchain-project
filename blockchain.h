@@ -33,16 +33,16 @@ public:
         {
             // push the block to the blocks vector
             uint512_t old_hash = performPOW();
-            
+            blocks[current_block_id].display();
+            blocks.push_back(Block(current_block_id,old_hash));
+
             // new block ready and loaded
             n_transact = 0;
             current_block_id++;
-            blocks.push_back(Block(current_block_id,old_hash));
         }
 
         blocks[current_block_id].data[n_transact] = t;
         n_transact++;
-
         // update indexes
     }
 
@@ -65,10 +65,9 @@ private:
     {
         while (!blockIsValid())
         {
-            terminal_log("trying a new nonce");
             blocks[current_block_id].nonce++; // i have no issue with this being trash values
         }
-        terminal_log("Found Valid Nonce");
+        std::cout << "Hash validated with a Nonce of: " << blocks[current_block_id].nonce << std::endl; // if found, cout nonce
         return blocks[current_block_id].hash_self();
     }
 };

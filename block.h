@@ -45,4 +45,11 @@ public:
         
         return real_hash;
     }
+
+    void display(){
+        std::cout << "--------------------- BLOCK ---------------------" << std::endl;
+        for(int i = 0; i < BLOCK_TRANSACTION_AMMOUNT; i++){
+            std::cout << to_string(data[i]) << "\n";
+        }
+    }
 };

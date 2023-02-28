@@ -546,7 +546,7 @@ namespace hashpp {
 			uint32_t offset = this->context.size % 64;
 			uint32_t plen = offset < 56 ? 56 - offset : (56 + 64) - offset;
 
-			this->ctx_update(this->pad._M_elems, plen);
+			this->ctx_update(this->pad.__elems_, plen);
 			this->context.size -= static_cast<uint64_t>(plen);
 
 			for (uint32_t j = 0; j < 14; ++j) {
@@ -692,7 +692,7 @@ namespace hashpp {
 			uint32_t input[16];
 			uint32_t offset = this->context.size % 64, plen = offset < 56 ? 56 - offset : (56 + 64) - offset;
 
-			this->ctx_update(this->pad._M_elems, plen);
+			this->ctx_update(this->pad.__elems_, plen);
 			this->context.size -= static_cast<uint64_t>(plen);
 
 			for (uint32_t j = 0; j < 14; ++j) {
