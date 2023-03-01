@@ -159,14 +159,6 @@ public:
         }
     }
 
-
-    bool search(string word) {
-        bool found = searchRec(root, word);
-        //cout << "Searching: " << word << ": ";
-        //if(found) cout << "true\n";
-        //else cout << "false\n";        
-        return found;
-    }
     
     void display()
     {
@@ -240,20 +232,37 @@ private:
         }
     }
 
-    bool searchRec(NodeArray* node, string wrd){
-        if(wrd == "") return true;
-        //cout << " > " << wrd << endl;
+    void searchRec(NodeArray* node, string wrd, vector<Transaction*> &vec){
         for(auto ptr = node->children->begin(); ptr != node->children->end(); ptr++){
-            if(boyermoore(wrd, (*ptr)->prefix.first)){
-                //cout << "boyer: " << wrd << " " << (*ptr)->prefix << endl;
-                return searchRec((*ptr), wrd.substr(int((*ptr)->prefix.first.size()), wrd.size()));
-                break;
-            }
+            vec.push_back((*ptr)->prefix.second);
+            searchRec((*ptr), wrd, vec);
         }
-        return false;
     }
 
 public:
+    vector<Transaction*> containsSearch(string word){
+        vector<Transaction*> vec;
+        NodeArray* temp = root;
+        bool found_something = false;
+        while(temp != nullptr ){
+            for(auto ptr = temp->children->begin(); ptr != temp->children->end(); ptr++){
+                if(boyermoore((*ptr)->prefix.first, word)){
+                    temp = (*ptr);
+                    vec.push_back((*ptr)->prefix.second);
+                    found_something = true;
+                    break;
+                }
+            }
+            if(!found_something){
+                temp = nullptr;
+            } else {
+                searchRec(temp, word, vec);
+                temp = nullptr;
+            }
+        }
+        return vec;
+    }
+
     ~Patricia(){    
 
     }

@@ -90,13 +90,16 @@ public:
         std::cout << "search: " << searchable << std::endl;
         std::vector<Transaction*> vec = m_hash_to.search(searchable);
         vec = m_hash_to.search(searchable);
-        /*for(auto ptr = vec.begin(); ptr != vec.end(); ptr++){
+        for(auto ptr = vec.begin(); ptr != vec.end(); ptr++){
             std::cout << to_string(*ptr) << std::endl;
-        }*/
+        }
     }
 
     void begins_with(string searchable){
-
+        std::vector<Transaction*> vec = m_trie_from.containsSearch(searchable);
+        for(auto ptr = vec.begin(); ptr != vec.end(); ptr++){
+            std::cout << to_string(*ptr) << std::endl;
+        }
     }
 
 private:

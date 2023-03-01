@@ -4,7 +4,7 @@
 #include "./structures/blockchain.h"
 #include <string>
 
-int main(void) {
+void test1(){
     Blockchain b;
 
     b.push(Transaction("bolon","ana",0));
@@ -55,4 +55,29 @@ int main(void) {
 
     b.search_from("delfino");
     b.search_to("koala");
+}
+
+void test2(){
+    Blockchain b;
+    b.push(Transaction("ban", "ouija", 5));
+    b.push(Transaction("banana", "vaca", 5));
+    b.push(Transaction("ana", "vacaciones", 5));
+    b.push(Transaction("wob", "vacas", 5));
+    b.push(Transaction("wobo", "trenzo", 5));
+
+    b.push(Transaction("wobowubzy", "trenzotas", 5));
+    b.push(Transaction("banco", "oui", 5));
+    b.push(Transaction("turtwig", "grotle", 5));
+    b.push(Transaction("turtiga", "grotezco", 5));
+    b.push(Transaction("banconeta", "hola", 5));
+
+    b.display_hash_index();
+
+    b.begins_with("ba");
+}
+
+int main(void) {
+    test2();
+
+    return 0;
 }
