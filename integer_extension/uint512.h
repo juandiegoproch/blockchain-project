@@ -162,7 +162,7 @@ int getValueFromHexDigit(char digit)
 
 uint512_t getui512fromstr(std::string num_string)
 {
-    if (num_string[1] = 'x') // 0x formatted hex value. discard
+    if (num_string[1] == 'x') // 0x formatted hex value. discard
     {
         num_string = num_string.substr(2);
     }
