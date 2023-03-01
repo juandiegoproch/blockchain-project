@@ -92,52 +92,52 @@ public:
 
     void search_from(string searchable){
 
-        std::cout << "\nsearch: " << searchable << "_________________________________________\n";
+        std::cout << "\nsearch: " << searchable << "\n";
         std::vector<Transaction*> vec = m_hash_from.search(searchable);
         vec = m_hash_from.search(searchable);
         for(auto ptr = vec.begin(); ptr != vec.end(); ptr++){
             std::cout << to_string(*ptr) << std::endl;
         }
-        std::cout << "----------------------------------------------------------------------------------\n\n";
+        std::cout << "\n\n";
     }
 
     void search_to(string searchable){
-        std::cout << "\nsearch: " << searchable << "_________________________________________\n";
+        std::cout << "\nsearch: " << searchable << "\n";
         std::vector<Transaction*> vec = m_hash_to.search(searchable);
         vec = m_hash_to.search(searchable);
         for(auto ptr = vec.begin(); ptr != vec.end(); ptr++){
             std::cout << to_string(*ptr) << std::endl;
         }
-        std::cout << "----------------------------------------------------------------------------------\n\n";
+        std::cout << "\n\n";
     }
 
     void begins_with(string searchable){
-        std::cout << "begins with: " << searchable << "_________________________________________\n";
+        std::cout << "begins with: " << searchable << "\n";
         std::vector<Transaction*> vec = m_trie_from.containsSearch(searchable);
         for(auto ptr = vec.begin(); ptr != vec.end(); ptr++){
             std::cout << to_string(*ptr) << std::endl;
         }             
-        std::cout << "------------------------------------------------------------\n\n";
+        std::cout << "\n\n";
     }
 
     void contains_from(string searchable){
-        std::cout << "contains: " << searchable << "_________________________________________\n\n";
+        std::cout << "contains: " << searchable << "\n\n";
         for(auto ptr = m_vec_from.begin(); ptr != m_vec_from.end(); ptr++){
             if(boyermoore((*ptr).first, searchable)){
                 cout << to_string((*ptr).second) << std::endl;
             }
         }
-        std::cout << "------------------------------------------------------------\n\n";
+        std::cout << "\n\n";
     }
 
     void contains_to(string searchable){
-        std::cout << "contains: " << searchable << "_________________________________________\n\n";
+        std::cout << "contains: " << searchable << "\n\n";
         for(auto ptr = m_vec_to.begin(); ptr != m_vec_to.end(); ptr++){
             if(boyermoore((*ptr).first, searchable)){
                 cout << to_string((*ptr).second) << std::endl;
             }
         }
-        std::cout << "------------------------------------------------------------\n\n";
+        std::cout << "\n\n";
     }
 
 private:
