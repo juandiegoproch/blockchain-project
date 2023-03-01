@@ -4,7 +4,14 @@
 #include<cstring>
 #include <sstream>
 
+#include "../structures/list.h"
+
 using namespace std;
+
+template<typename T>
+inline bool isWithin(T st, T stp, T val){
+    return val > st && val < stp;
+}
 
 template <typename TK, typename TV>
 struct NodeAVL{
@@ -47,6 +54,40 @@ public:
 
     bool find(TK value, TV trans){
         return find(root, value);
+    }
+
+    std::vector<std::pair<TK,TV>> find_range(TK start, TK stop)
+    {
+        // encontremos el subarbol relevante y olvidemonos de usar stacks por un momento!
+        NodeAVL<TK,TV>* current_subtree = root;
+        while (current_subtree != nullptr && !isWithin(start, stop, current_subtree->pair.first))
+            if (current_subtree->pair.first > stop) current_subtree = current_subtree->left;
+            else current_subtree = current_subtree->right;
+
+        if (current_subtree == nullptr)
+            return std::vector<std::pair<TK,TV>>(); //empty vector
+
+        // hacemos el recorrido e insertamos en el vector de retorno
+        std::vector<std::pair<TK,TV>> result;
+        SinglyLinkedList<NodeAVL<TK,TV>*> st;
+        st.push_front(current_subtree);
+
+        while (!st.empty())
+        {
+            NodeAVL<TK,TV>* currentNode = st.pop_front();
+
+            // do left node
+            if (currentNode->left != nullptr && currentNode->left->pair.first > start)
+                st.push_front(currentNode->left);
+            //do right node
+            if (currentNode->right != nullptr && currentNode->right->pair.first < stop)
+                st.push_front(currentNode->right);
+
+            //insert popped value
+            result.push_back(currentNode->pair);
+        }
+
+        return result;
     }
 
     string getPreOrder(){
@@ -314,7 +355,8 @@ private:
         }else if(key > node->pair.first){
             insert(node->right, key, value);
         }else{
-            return;
+            // en casosea igual, presevar que a la derecha no hay mayores
+            insert(node->left, key, value);
         }
         UpdateHeight(node);
         Letsbalance(node);

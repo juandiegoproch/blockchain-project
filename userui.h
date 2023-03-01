@@ -173,12 +173,12 @@ void userUI(Blockchain& b)
                 if (who == "moment")
                 {
                     std::cout << "searching range over \'moment\'. " << std::endl;
-                    std::cout << " (Overwrite this!) Please implement at" << __FILE__ << " line:" << __LINE__ << std::endl;
+                    b.search_range_moment(start_i,end_i);
                 }
                 else if (who == "ammount")
                 {
                     std::cout << "searching range over \'ammount\'. " << std::endl;
-                    std::cout << " (Overwrite this!) Please implement at" << __FILE__ << " line:" << __LINE__ << std::endl;
+                    b.search_range_ammount(start_i,end_i);
                 }
                 else
                 {

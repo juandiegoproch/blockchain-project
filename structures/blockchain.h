@@ -30,6 +30,7 @@ class Blockchain
     vector<pair<string, Transaction*> > m_vec_to; 
 
     AVLTree<int, Transaction*> m_avl_amount;
+    AVLTree<int, Transaction*> m_avl_moment;
 
 public:
     Blockchain()
@@ -72,6 +73,7 @@ public:
         m_vec_to.push_back(make_pair(blocks[current_block_id]->data[n_transact-1].to, addressof(blocks[current_block_id]->data[n_transact-1])));
 
         m_avl_amount.insert(blocks[current_block_id]->data[n_transact-1].ammount, addressof(blocks[current_block_id]->data[n_transact-1]));
+        m_avl_moment.insert(blocks[current_block_id]->data[n_transact-1].moment, addressof(blocks[current_block_id]->data[n_transact-1]));
     }
 
     void display_tree_index(){
@@ -150,6 +152,28 @@ public:
             }
         }
         std::cout << "\n\n";
+    }
+
+    void search_range_ammount(int start, int stop)
+    {
+        //m_avl_amount.printBT();
+        std::cout << "Range " << start << ":" << stop << std::endl;
+        for (auto ptr:m_avl_amount.find_range(start,stop))
+        {
+            cout << to_string(ptr.second) << std::endl;
+        }
+        std::cout << "\n" << std::endl;
+    }
+
+    void search_range_moment(int start, int stop)
+    {
+        m_avl_moment.printBT();
+        std::cout << "Range " << start << ":" << stop << std::endl;
+        for (auto ptr:m_avl_moment.find_range(start,stop))
+        {
+            cout << to_string(ptr.second) << std::endl;
+        }
+        std::cout << "\n" << std::endl;
     }
 
     ~Blockchain()
