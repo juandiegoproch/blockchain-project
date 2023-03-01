@@ -58,7 +58,6 @@ void userUI(Blockchain& b)
     std::string nextword;
     /*
         Quienes faltan?
-        Search Range - AVL: Hacer que haga rangesearch.
         min/max - Hacer que existan
     */
     while ((nextword = getWordFromCin()) != "quit")
@@ -241,12 +240,12 @@ void userUI(Blockchain& b)
             if (who == "ammount")
             {
                 std::cout << "max value over \'ammount\'. " << std::endl;
-                std::cout << " (Overwrite this!) Please implement at" << __FILE__ << " line:" << __LINE__ << std::endl;
+                b.maxvalue_ammount();
             }
             else if (who == "moment")
             {
                 std::cout << "max value over \'moment\'. " << std::endl;
-                std::cout << " (Overwrite this!) Please implement at" << __FILE__ << " line:" << __LINE__ << std::endl;
+                b.maxvalue_moment();
             }
             else
             {
@@ -262,12 +261,12 @@ void userUI(Blockchain& b)
             if (who == "ammount")
             {
                 std::cout << "min value over \'ammount\'. " << std::endl;
-                std::cout << " (Overwrite this!) Please implement at" << __FILE__ << " line:" << __LINE__ << std::endl;
+                b.minvalue_ammount();
             }
             else if (who == "moment")
             {
                 std::cout << "min value over \'moment\'. " << std::endl;
-                std::cout << " (Overwrite this!) Please implement at" << __FILE__ << " line:" << __LINE__ << std::endl;
+                b.minvalue_moment();
             }
             else
             {

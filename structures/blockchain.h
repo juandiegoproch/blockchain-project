@@ -3,9 +3,10 @@
 #include "block.h"
 #include "transaction.h"
 #include <vector>
-#include "../indexes/hash.cpp"
-#include "../indexes/trie.cpp"
-#include "../indexes/avl.cpp"
+#include "../indexes/hash.h"
+#include "../indexes/trie.h"
+#include "../indexes/avl.h"
+#include "../indexes/heap.h"
 
 
 class Blockchain
@@ -31,6 +32,12 @@ class Blockchain
 
     AVLTree<int, Transaction*> m_avl_amount;
     AVLTree<int, Transaction*> m_avl_moment;
+
+    MaxHeap<int,Transaction*> m_mxheap_ammount;
+    MaxHeap<int,Transaction*> m_mxheap_moment;
+
+    MaxHeap<int,Transaction*> m_miheap_ammount;
+    MaxHeap<int,Transaction*> m_miheap_moment;
 
 public:
     Blockchain()
@@ -63,8 +70,9 @@ public:
         blocks[current_block_id]->data[n_transact] = t;
         n_transact++;
         // update indexes
-        m_hash_from.set(blocks[current_block_id]->data[n_transact-1].from, addressof(blocks[current_block_id]->data[n_transact-1]));
-        m_hash_to.set(blocks[current_block_id]->data[n_transact-1].to, addressof(blocks[current_block_id]->data[n_transact-1]));
+
+        m_hash_from.insert(blocks[current_block_id]->data[n_transact-1].from, addressof(blocks[current_block_id]->data[n_transact-1]));
+        m_hash_to.insert(blocks[current_block_id]->data[n_transact-1].to, addressof(blocks[current_block_id]->data[n_transact-1]));
 
         m_trie_from.insert(blocks[current_block_id]->data[n_transact-1].from, addressof(blocks[current_block_id]->data[n_transact-1]));
         m_trie_to.insert(blocks[current_block_id]->data[n_transact-1].to, addressof(blocks[current_block_id]->data[n_transact-1]));
@@ -74,6 +82,13 @@ public:
 
         m_avl_amount.insert(blocks[current_block_id]->data[n_transact-1].ammount, addressof(blocks[current_block_id]->data[n_transact-1]));
         m_avl_moment.insert(blocks[current_block_id]->data[n_transact-1].moment, addressof(blocks[current_block_id]->data[n_transact-1]));
+
+        m_mxheap_ammount.insert(blocks[current_block_id]->data[n_transact-1].ammount, addressof(blocks[current_block_id]->data[n_transact-1]));
+        m_miheap_ammount.insert(blocks[current_block_id]->data[n_transact-1].ammount, addressof(blocks[current_block_id]->data[n_transact-1]));
+
+        m_mxheap_moment.insert(blocks[current_block_id]->data[n_transact-1].moment, addressof(blocks[current_block_id]->data[n_transact-1]));
+        m_miheap_moment.insert(blocks[current_block_id]->data[n_transact-1].moment, addressof(blocks[current_block_id]->data[n_transact-1]));
+    
     }
 
     void display_tree_index(){
@@ -151,6 +166,34 @@ public:
                 cout << to_string((*ptr).second) << std::endl;
             }
         }
+        std::cout << "\n\n";
+    }
+
+    void maxvalue_ammount()
+    {
+        std::cout << "Max value transaction for ammount: " << std::endl;
+        std::cout << to_string(m_mxheap_ammount.top()) << std::endl;
+        std::cout << "\n\n";
+    }
+
+    void minvalue_ammount()
+    {
+        std::cout << "Min value transaction for ammount: " << std::endl;
+        std::cout << to_string(m_miheap_ammount.top()) << std::endl;
+        std::cout << "\n\n";
+    }
+
+    void maxvalue_moment()
+    {
+        std::cout << "Max value transaction for moment: " << std::endl;
+        std::cout << to_string(m_mxheap_moment.top()) << std::endl;
+        std::cout << "\n\n";
+    }
+
+    void minvalue_moment()
+    {
+        std::cout << "Min value transaction for ammount: " << std::endl;
+        std::cout << to_string(m_miheap_moment.top()) << std::endl;
         std::cout << "\n\n";
     }
 

@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <string>
 #include <forward_list>
@@ -58,6 +60,11 @@ public:
 
         if(double(currentSize)/double(maxSize) >= maxFillFactor)
             resize();
+    }
+
+    void insert(const TK key, const TV value)
+    {
+        set(key,value);
     }
 
     // O(k) complexity? yes.

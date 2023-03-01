@@ -97,7 +97,7 @@ void testAVL(Blockchain& b){
 
 int main(void) {
     Blockchain b;
-    //testSearch(b);
+    testSearch(b);
     //testBeginsWith(b);
     //testAVL(b);
     //testContains(b);
