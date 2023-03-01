@@ -75,11 +75,14 @@ public:
     }
 
     vector<TV> search(TK key){
-        vector<TV> vec;
+        vector<TV> vec = {};
         int index = hashFun(key) % maxSize;
         forward_list<Entry> whichList = lists[index];
+        if(whichList.empty()) return vec;
         for(auto ptr = whichList.begin(); ptr != whichList.end(); ptr++){
             if((*ptr).key == key) {
+                cout << "index: " << index << "   ";
+                cout << (*ptr).key << "," << to_string((*ptr).value) << endl;
                 vec.push_back((*ptr).value);
             }
         }

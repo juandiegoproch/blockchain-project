@@ -253,5 +253,8 @@ private:
         return false;
     }
 
-    ~Patricia(){    }
+public:
+    ~Patricia(){    
+
+    }
 };

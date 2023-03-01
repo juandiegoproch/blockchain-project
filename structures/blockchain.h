@@ -21,6 +21,9 @@ class Blockchain
     // indexes
     HashTable<string, Transaction*> m_hash_from;
     HashTable<string, Transaction*> m_hash_to;
+
+    Patricia<string, Transaction*> m_trie_from;
+    Patricia<string, Transaction*> m_trie_to;
 public:
 
     Blockchain()
@@ -50,9 +53,16 @@ public:
         blocks[current_block_id].data[n_transact] = t;
         n_transact++;
         // update indexes
+        if(blocks[current_block_id].data[n_transact-1].from == "carnivoro") 
+            std::cout << to_string(blocks[current_block_id].data[n_transact-1]) << std::endl;
         m_hash_from.set(blocks[current_block_id].data[n_transact-1].from, addressof(blocks[current_block_id].data[n_transact-1]));
 
         m_hash_to.set(blocks[current_block_id].data[n_transact-1].to, addressof(blocks[current_block_id].data[n_transact-1]));
+
+        m_trie_from.insert(blocks[current_block_id].data[n_transact-1].from, addressof(blocks[current_block_id].data[n_transact-1]));
+
+        m_trie_to.insert(blocks[current_block_id].data[n_transact-1].to, addressof(blocks[current_block_id].data[n_transact-1]));
+
     }
 
     void display_hash_index(){
@@ -60,25 +70,34 @@ public:
         m_hash_from.display();
         std::cout << "\nm_hash_to\n";
         m_hash_to.display();
+        std::cout << "\nm_trie_from\n";
+        m_trie_from.display();
+        std::cout << "\nm_trie_to\n";
+        m_trie_to.display();
     }
 
     void search_from(string searchable){
+
         std::cout << "search: " << searchable << std::endl;
         std::vector<Transaction*> vec = m_hash_from.search(searchable);
-        for(auto ptr = vec.begin(); ptr != vec.end(); ptr++){
+        vec = m_hash_from.search(searchable);
+        /*for(auto ptr = vec.begin(); ptr != vec.end(); ptr++){
             std::cout << to_string(*ptr) << std::endl;
-        }
+        }*/
     }
 
     void search_to(string searchable){
         std::cout << "search: " << searchable << std::endl;
         std::vector<Transaction*> vec = m_hash_to.search(searchable);
-        for(auto ptr = vec.begin(); ptr != vec.end(); ptr++){
+        vec = m_hash_to.search(searchable);
+        /*for(auto ptr = vec.begin(); ptr != vec.end(); ptr++){
             std::cout << to_string(*ptr) << std::endl;
-        }
+        }*/
     }
 
-    
+    void begins_with(string searchable){
+
+    }
 
 private:
     bool blockIsValid()
