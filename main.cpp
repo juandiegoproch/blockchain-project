@@ -3,11 +3,11 @@
 
 #include "./structures/blockchain.h"
 #include <string>
+#include "userui.h"
 
-void testSearch(){
+void testSearch(Blockchain& b){
     // --=-=-=-=-= DONE
     cout << "\n\t\t----- TEST SEARCH -----\n\n";
-    Blockchain b;
 
     b.push(Transaction("bolon","ana",0));
     b.push(Transaction("bodrio","bobuina",1));
@@ -37,10 +37,9 @@ void testSearch(){
     b.search_to("koala");
 }
 
-void testBeginsWith(){
+void testBeginsWith(Blockchain& b){
     // =-=-=-=-=- DONE
     cout << "\n\t\t----- TEST BEGIN -----\n\n";
-    Blockchain b;
     b.push(Transaction("ban", "ouija", 5));
     b.push(Transaction("banana", "vaca", 5));
     b.push(Transaction("ana", "vacaciones", 5));
@@ -55,13 +54,12 @@ void testBeginsWith(){
 
     //b.display_trie_index();
 
-    b.begins_with("ba");
+    b.begins_with_from("ba");
 }
 
-void testContains(){
+void testContains(Blockchain& b){
     // -=-=-=-=-=-=-=- DONE
     cout << "\n\t\t----- TEST CONTAINS -----\n\n";
-    Blockchain b;
     b.push(Transaction("ban", "olivos", 5));
     b.push(Transaction("banana", "vaca", 5));
     b.push(Transaction("ana", "vacaciones", 5));
@@ -79,9 +77,8 @@ void testContains(){
     b.contains_to("v");
 }
 
-void testAVL(){
+void testAVL(Blockchain& b){
     cout << "\n\t\t----- TEST AVL -----\n\n";
-    Blockchain b;
     b.push(Transaction("imantado","erga",9));
     b.push(Transaction("iman","abisrror",10));
     b.push(Transaction("gordo","chuta",0));
@@ -99,10 +96,13 @@ void testAVL(){
 
 
 int main(void) {
-    testSearch();
-    testBeginsWith();
-    testAVL();
-    testContains();
+    Blockchain b;
+    testSearch(b);
+    testBeginsWith(b);
+    testAVL(b);
+    testContains(b);
+
+    userUI(b);
 
     return 0;
 }

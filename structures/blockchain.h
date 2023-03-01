@@ -111,9 +111,18 @@ public:
         std::cout << "\n\n";
     }
 
-    void begins_with(string searchable){
+    void begins_with_from(string searchable){
         std::cout << "begins with: " << searchable << "\n";
         std::vector<Transaction*> vec = m_trie_from.containsSearch(searchable);
+        for(auto ptr = vec.begin(); ptr != vec.end(); ptr++){
+            std::cout << to_string(*ptr) << std::endl;
+        }             
+        std::cout << "\n\n";
+    }
+
+    void begins_with_to(string searchable){
+        std::cout << "begins with: " << searchable << "\n";
+        std::vector<Transaction*> vec = m_trie_to.containsSearch(searchable);
         for(auto ptr = vec.begin(); ptr != vec.end(); ptr++){
             std::cout << to_string(*ptr) << std::endl;
         }             
