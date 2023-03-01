@@ -41,7 +41,7 @@ void userUI(Blockchain& b)
         maxvalue <ammount/moment>
             Returns the maximum value transaction for the specified attribute.
 
-        maxvalue <ammount/moment>
+        minvalue <ammount/moment>
             Returns the minimum value transaction for the specified attribute.
 
         quit

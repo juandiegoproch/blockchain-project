@@ -20,7 +20,7 @@ public:
 
 
     TV top(){
-        std::cout<<"TOP VALUE: "<<std::endl;
+        //std::cout<<"TOP VALUE: "<<std::endl;
         if(size>0){
             //std::cout<< arr[0] <<" && "<<trans[0]<<std::endl;
             return trans[0];
@@ -36,7 +36,7 @@ public:
     }
 
     void push(TK key, TV value){
-        std::cout<<"Pushing KEY("<<key<<") with VALUE("<<value<<")"<<std::endl;
+        //std::cout<<"Pushing KEY("<<key<<") with VALUE("<<value<<")"<<std::endl;
         if(size == capacity) resize();
         int index = size;
         arr[index] = key;
@@ -141,10 +141,9 @@ private:
         int nuevosize = size * 2;
         TK* newArr = new TK[nuevosize];
         TV* newArr2 = new TV[nuevosize];
-        memcpy(newArr, arr, size * sizeof(int));
-        memcpy(newArr2, trans, size * sizeof(int));
+        memcpy(newArr, arr, size * sizeof(TK));
+        memcpy(newArr2, trans, size * sizeof(TV));
 
-        size = nuevosize;
         delete[] arr;
         delete[] trans;
         arr = newArr;
@@ -173,7 +172,7 @@ public:
 
 
     TV top(){
-        std::cout<<"TOP VALUE: "<<std::endl;
+        //std::cout<<"TOP VALUE: "<<std::endl;
         if(size>0){
             //std::cout<< arr[0] <<" && "<<trans[0]<<std::endl;
             return trans[0];
@@ -189,7 +188,7 @@ public:
     }
 
     void push(TK key, TV value){
-        std::cout<<"Pushing KEY("<<key<<") with VALUE("<<value<<")"<<std::endl;
+        //std::cout<<"Pushing KEY("<<key<<") with VALUE("<<value<<")"<<std::endl;
         if(size == capacity) resize();
         int index = size;
         arr[index] = key;
@@ -291,13 +290,12 @@ private:
     }
 
     void resize() {
-        int nuevosize = size * 2;
+        int nuevosize = size * 2; // esto deberia ser capacity: size se debe mantener, pero la capacidad se amplia
         TK* newArr = new TK[nuevosize];
         TV* newArr2 = new TV[nuevosize];
-        memcpy(newArr, arr, size * sizeof(int));
-        memcpy(newArr2, trans, size * sizeof(int));
+        memcpy(newArr, arr, size * sizeof(TK));
+        memcpy(newArr2, trans, size * sizeof(TV));
 
-        size = nuevosize;
         delete[] arr;
         delete[] trans;
         arr = newArr;

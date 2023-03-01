@@ -36,8 +36,8 @@ class Blockchain
     MaxHeap<int,Transaction*> m_mxheap_ammount;
     MaxHeap<int,Transaction*> m_mxheap_moment;
 
-    MaxHeap<int,Transaction*> m_miheap_ammount;
-    MaxHeap<int,Transaction*> m_miheap_moment;
+    MinHeap<int,Transaction*> m_miheap_ammount;
+    MinHeap<int,Transaction*> m_miheap_moment;
 
 public:
     Blockchain()
