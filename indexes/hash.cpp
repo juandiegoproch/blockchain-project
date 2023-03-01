@@ -81,8 +81,6 @@ public:
         if(whichList.empty()) return vec;
         for(auto ptr = whichList.begin(); ptr != whichList.end(); ptr++){
             if((*ptr).key == key) {
-                cout << "index: " << index << "   ";
-                cout << (*ptr).key << "," << to_string((*ptr).value) << endl;
                 vec.push_back((*ptr).value);
             }
         }

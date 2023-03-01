@@ -5,6 +5,7 @@
 #include <vector>
 #include "../indexes/hash.cpp"
 #include "../indexes/trie.cpp"
+#include "../indexes/avl.cpp"
 
 
 class Blockchain
@@ -24,8 +25,13 @@ class Blockchain
 
     Patricia<string, Transaction*> m_trie_from;
     Patricia<string, Transaction*> m_trie_to;
-public:
 
+    vector<pair<string, Transaction*> > m_vec_from;
+    vector<pair<string, Transaction*> > m_vec_to; 
+
+    AVLTree<int, Transaction*> m_avl_amount;
+
+public:
     Blockchain()
     {
         uint512_t zero;
@@ -53,16 +59,28 @@ public:
         blocks[current_block_id].data[n_transact] = t;
         n_transact++;
         // update indexes
-        if(blocks[current_block_id].data[n_transact-1].from == "carnivoro") 
-            std::cout << to_string(blocks[current_block_id].data[n_transact-1]) << std::endl;
         m_hash_from.set(blocks[current_block_id].data[n_transact-1].from, addressof(blocks[current_block_id].data[n_transact-1]));
-
         m_hash_to.set(blocks[current_block_id].data[n_transact-1].to, addressof(blocks[current_block_id].data[n_transact-1]));
 
         m_trie_from.insert(blocks[current_block_id].data[n_transact-1].from, addressof(blocks[current_block_id].data[n_transact-1]));
-
         m_trie_to.insert(blocks[current_block_id].data[n_transact-1].to, addressof(blocks[current_block_id].data[n_transact-1]));
 
+        m_vec_from.push_back(make_pair(blocks[current_block_id].data[n_transact-1].from, addressof(blocks[current_block_id].data[n_transact-1])));
+        m_vec_to.push_back(make_pair(blocks[current_block_id].data[n_transact-1].to, addressof(blocks[current_block_id].data[n_transact-1])));
+
+        m_avl_amount.insert(blocks[current_block_id].data[n_transact-1].ammount, addressof(blocks[current_block_id].data[n_transact-1]));
+    }
+
+    void display_tree_index(){
+        std::cout << "\nm_tree_amount\n";
+        m_avl_amount.printBT();
+    }
+
+    void display_trie_index(){
+        std::cout << "\nm_trie_from\n";
+        m_trie_from.display();
+        std::cout << "\nm_trie_to\n";
+        m_trie_to.display();
     }
 
     void display_hash_index(){
@@ -70,36 +88,56 @@ public:
         m_hash_from.display();
         std::cout << "\nm_hash_to\n";
         m_hash_to.display();
-        std::cout << "\nm_trie_from\n";
-        m_trie_from.display();
-        std::cout << "\nm_trie_to\n";
-        m_trie_to.display();
     }
 
     void search_from(string searchable){
 
-        std::cout << "search: " << searchable << std::endl;
+        std::cout << "\nsearch: " << searchable << "_________________________________________\n";
         std::vector<Transaction*> vec = m_hash_from.search(searchable);
         vec = m_hash_from.search(searchable);
-        /*for(auto ptr = vec.begin(); ptr != vec.end(); ptr++){
+        for(auto ptr = vec.begin(); ptr != vec.end(); ptr++){
             std::cout << to_string(*ptr) << std::endl;
-        }*/
+        }
+        std::cout << "----------------------------------------------------------------------------------\n\n";
     }
 
     void search_to(string searchable){
-        std::cout << "search: " << searchable << std::endl;
+        std::cout << "\nsearch: " << searchable << "_________________________________________\n";
         std::vector<Transaction*> vec = m_hash_to.search(searchable);
         vec = m_hash_to.search(searchable);
         for(auto ptr = vec.begin(); ptr != vec.end(); ptr++){
             std::cout << to_string(*ptr) << std::endl;
         }
+        std::cout << "----------------------------------------------------------------------------------\n\n";
     }
 
     void begins_with(string searchable){
+        std::cout << "begins with: " << searchable << "_________________________________________\n";
         std::vector<Transaction*> vec = m_trie_from.containsSearch(searchable);
         for(auto ptr = vec.begin(); ptr != vec.end(); ptr++){
             std::cout << to_string(*ptr) << std::endl;
+        }             
+        std::cout << "------------------------------------------------------------\n\n";
+    }
+
+    void contains_from(string searchable){
+        std::cout << "contains: " << searchable << "_________________________________________\n\n";
+        for(auto ptr = m_vec_from.begin(); ptr != m_vec_from.end(); ptr++){
+            if(boyermoore((*ptr).first, searchable)){
+                cout << to_string((*ptr).second) << std::endl;
+            }
         }
+        std::cout << "------------------------------------------------------------\n\n";
+    }
+
+    void contains_to(string searchable){
+        std::cout << "contains: " << searchable << "_________________________________________\n\n";
+        for(auto ptr = m_vec_to.begin(); ptr != m_vec_to.end(); ptr++){
+            if(boyermoore((*ptr).first, searchable)){
+                cout << to_string((*ptr).second) << std::endl;
+            }
+        }
+        std::cout << "------------------------------------------------------------\n\n";
     }
 
 private:
