@@ -56,7 +56,11 @@ void userUI(Blockchain& b)
 
     // get command type
     std::string nextword;
-
+    /*
+        Quienes faltan?
+        Search Range - AVL: Hacer que haga rangesearch.
+        min/max - Hacer que existan
+    */
     while ((nextword = getWordFromCin()) != "quit")
     {
         if (nextword == "new_transaction")
@@ -206,12 +210,26 @@ void userUI(Blockchain& b)
         }
         else if (nextword == "contained")
         {
-            std::string argument;
+            std::cout << "This option has known issues: Fails to match inside word if string is not sigular char";
+            std::string who,argument;
 
+            std::cin >> who;
             std::cin >> argument;
 
-            std::cout << "searching contains " << argument << std::endl;
-            std::cout << " (Overwrite this!) Please implement at" << __FILE__ << " line:" << __LINE__ << std::endl;
+            if (who == "to")
+            {
+                std::cout << "searching over to contains " << argument << std::endl;
+                b.contains_to(argument);
+            }
+            else if (who == "from")
+            {
+                std::cout << "searching over from contains " << argument << std::endl;
+                b.contains_from(argument);
+            }
+            else
+            {
+                std::cout << "Invalid attribute" << std::endl;
+            }
 
         }
         else if (nextword == "maxvalue")

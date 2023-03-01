@@ -11,7 +11,7 @@
 class Blockchain
 {
     // important things
-    std::vector<Block> blocks;
+    std::vector<Block*> blocks;
     int difficulty;
 
     // helpfull things
@@ -39,7 +39,9 @@ public:
         difficulty = 4;
         current_block_id = 0;
         n_transact = 0;
-        blocks.push_back(Block(current_block_id,zero));
+
+        Block* firstblock = new Block(current_block_id,zero);
+        blocks.push_back(firstblock);
     }
 
     void push(const Transaction& t) // inserts a new transaction into the last Block in the Blocks vector
@@ -48,27 +50,28 @@ public:
         {
             // push the block to the blocks vector
             uint512_t old_hash = performPOW();
-            blocks[current_block_id].display();
-            blocks.push_back(Block(current_block_id,old_hash));
+            blocks[current_block_id]->display();
+            Block* newblock = new Block(current_block_id,old_hash);
+            blocks.push_back(newblock);
 
             // new block ready and loaded
             n_transact = 0;
             current_block_id++;
         }
 
-        blocks[current_block_id].data[n_transact] = t;
+        blocks[current_block_id]->data[n_transact] = t;
         n_transact++;
         // update indexes
-        m_hash_from.set(blocks[current_block_id].data[n_transact-1].from, addressof(blocks[current_block_id].data[n_transact-1]));
-        m_hash_to.set(blocks[current_block_id].data[n_transact-1].to, addressof(blocks[current_block_id].data[n_transact-1]));
+        m_hash_from.set(blocks[current_block_id]->data[n_transact-1].from, addressof(blocks[current_block_id]->data[n_transact-1]));
+        m_hash_to.set(blocks[current_block_id]->data[n_transact-1].to, addressof(blocks[current_block_id]->data[n_transact-1]));
 
-        m_trie_from.insert(blocks[current_block_id].data[n_transact-1].from, addressof(blocks[current_block_id].data[n_transact-1]));
-        m_trie_to.insert(blocks[current_block_id].data[n_transact-1].to, addressof(blocks[current_block_id].data[n_transact-1]));
+        m_trie_from.insert(blocks[current_block_id]->data[n_transact-1].from, addressof(blocks[current_block_id]->data[n_transact-1]));
+        m_trie_to.insert(blocks[current_block_id]->data[n_transact-1].to, addressof(blocks[current_block_id]->data[n_transact-1]));
 
-        m_vec_from.push_back(make_pair(blocks[current_block_id].data[n_transact-1].from, addressof(blocks[current_block_id].data[n_transact-1])));
-        m_vec_to.push_back(make_pair(blocks[current_block_id].data[n_transact-1].to, addressof(blocks[current_block_id].data[n_transact-1])));
+        m_vec_from.push_back(make_pair(blocks[current_block_id]->data[n_transact-1].from, addressof(blocks[current_block_id]->data[n_transact-1])));
+        m_vec_to.push_back(make_pair(blocks[current_block_id]->data[n_transact-1].to, addressof(blocks[current_block_id]->data[n_transact-1])));
 
-        m_avl_amount.insert(blocks[current_block_id].data[n_transact-1].ammount, addressof(blocks[current_block_id].data[n_transact-1]));
+        m_avl_amount.insert(blocks[current_block_id]->data[n_transact-1].ammount, addressof(blocks[current_block_id]->data[n_transact-1]));
     }
 
     void display_tree_index(){
@@ -96,7 +99,7 @@ public:
         std::vector<Transaction*> vec = m_hash_from.search(searchable);
         vec = m_hash_from.search(searchable);
         for(auto ptr = vec.begin(); ptr != vec.end(); ptr++){
-            std::cout << to_string(*ptr) << std::endl;
+            std::cout << to_string(*ptr) << std::endl; // por algun motivo, este puntero apunta a un sitio fuera de donde toca: (alrededor del data[10] del Blocks[4])
         }
         std::cout << "\n\n";
     }
@@ -149,10 +152,15 @@ public:
         std::cout << "\n\n";
     }
 
+    ~Blockchain()
+    {
+        for (auto i:blocks)
+            delete i;
+    }
 private:
     bool blockIsValid()
     {
-        uint512_t hash_ = blocks[current_block_id].hash_self();
+        uint512_t hash_ = blocks[current_block_id]->hash_self();
         to_string(hash_);
         std::string block_to_insert_hash = to_string(hash_);
         // skip 0x
@@ -167,9 +175,9 @@ private:
     {
         while (!blockIsValid())
         {
-            blocks[current_block_id].nonce++; // i have no issue with this being trash values
+            blocks[current_block_id]->nonce++; // i have no issue with this being trash values
         }
         //std::cout << "Hash validated with a Nonce of: " << blocks[current_block_id].nonce << std::endl; // if found, cout nonce
-        return blocks[current_block_id].hash_self();
+        return blocks[current_block_id]->hash_self();
     }
 };
