@@ -44,7 +44,7 @@ public:
     {
         uint512_t zero;
         zero = 0;
-        difficulty = 4;
+        difficulty = 6;
         current_block_id = 0;
         n_transact = 0;
 

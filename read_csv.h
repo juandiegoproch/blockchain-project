@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <stdexcept>
  
 #include "structures/transaction.h"
 
@@ -28,16 +29,22 @@ bool read_csv(std::string filename, vector<Transaction>& transacts)
         getline(currline,moment_s,',');
         getline(currline,ammount_s,',');
 
-        long int moment = atoi(moment_s.c_str());
-        long int ammount = atoi(ammount_s.c_str());
+        try
+        {
+            long int moment = atoi(moment_s.c_str());
+            long int ammount = atoi(ammount_s.c_str());
+            Transaction t;
+            t.from = from;
+            t.to = to;
+            t.moment = moment;
+            t.ammount = ammount;
 
-        Transaction t;
-        t.from = from;
-        t.to = to;
-        t.moment = moment;
-        t.ammount = ammount;
-
-        transacts.push_back(t);
+            transacts.push_back(t);
+        }
+        catch(std::invalid_argument a())
+        {
+            return false;
+        }
 		
     }
 

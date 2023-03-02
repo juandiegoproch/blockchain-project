@@ -45,12 +45,15 @@ void userUI(Blockchain& b)
         minvalue <ammount/moment>
             Returns the minimum value transaction for the specified attribute.
 
+        read_csv <filename>
+            Uploads data from the csv file into the blockchain. *
         quit
             Quits the application
 
         help
             Shows this message.
-
+        
+        * Data must be formatted like: <to>,<from>,<moment>,<ammount> '\n
     )V0G0N";
     std::cout << "                       BLOCKCHAIN MANAGER COMMANDLINE               TYPE: USER-QUERY \n \n --------------------------------------------------------------------------------------- \n 2/28/2023 " << std::endl;
     std::cout << user_help_string << std::endl << ">> ";
