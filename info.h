@@ -1,5 +1,5 @@
 #include <string>
-#include "../indexes/btree.h"
+#include "./indexes/btree.h"
 #include "blockchain.h"
 #include "list.h"
 #include "transaction.h"

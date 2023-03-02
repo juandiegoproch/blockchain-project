@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <iostream>
 #include "structures/blockchain.h"
+#include "read_csv.h"
 
 std::string getWordFromCin()
 {
@@ -272,6 +273,26 @@ void userUI(Blockchain& b)
             {
                 std::cout << "Invalid attribute" << std::endl;
             }
+        }
+        else if (nextword == "read_csv")
+        {
+            std::string filename;
+            std::cin >> filename;
+            std::vector<Transaction> transactsread;
+            if (read_csv(filename,transactsread))
+            {
+                std::cout << "reading file..." << std::endl;
+                
+                for (Transaction i:transactsread)
+                    b.push(i);
+
+                std::cout << "file succesfully read..." << std::endl;
+            }
+            else{
+                std::cout << "Invalid file." << std::endl;
+            }
+
+
         }
         else if (nextword == "help")
         {
