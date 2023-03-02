@@ -219,6 +219,13 @@ public:
         std::cout << "\n" << std::endl;
     }
 
+    void display_blocks(){
+        for(auto x: blocks){
+            x->display();
+        }
+        std::cout << "Warning, last block may contain trash data. 💃" << std::endl;
+    }
+
     ~Blockchain()
     {
         for (auto i:blocks)

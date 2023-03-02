@@ -47,6 +47,10 @@ void userUI(Blockchain& b)
 
         read_csv <filename>
             Uploads data from the csv file into the blockchain. *
+
+        display
+            Displays all the blocks in the blockchain.
+
         quit
             Quits the application
 
@@ -300,6 +304,10 @@ void userUI(Blockchain& b)
         else if (nextword == "help")
         {
             std::cout << user_help_string <<std::endl;
+        }
+        else if(nextword == "display")
+        {
+            b.display_blocks();
         }
         else
         {
