@@ -213,7 +213,7 @@ void userUI(Blockchain& b)
         }
         else if (nextword == "contained")
         {
-            std::cout << "This option has known issues: Fails to match inside word if string is not sigular char";
+            //std::cout << "This option has known issues: Fails to match inside word if string is not sigular char"; fixed !
             std::string who,argument;
 
             std::cin >> who;

@@ -92,7 +92,7 @@ public:
         head = new Node(dato,head);
     }
 
-    empty()
+    bool empty()
     {
         return head == nullptr;
     }
