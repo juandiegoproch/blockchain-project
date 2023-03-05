@@ -34,11 +34,12 @@ private:
     int max_col;
 public:
     HashTable(){
-        maxSize = 5;
+        maxSize = 5; // how long is the table
         lists = new forward_list<Entry>[maxSize];
         maxFillFactor = 0.8;
-        resize_increase = 2;
+        resize_increase = 2; 
         max_col = 3;
+        currentSize = 0; // current ammount of elements in the table
     }
 
     // O(k) complexity, im doing push front so O(1) rlly.
@@ -155,32 +156,36 @@ private:
         return --pos;
     }
 
-    // O(N) + O(k) ? yes
-    void resize(){
-       //cout << "Resizing..." << endl;
-        forward_list<Entry>* newTable = new forward_list<Entry>[maxSize * resize_increase];
-        int pos = 0;
-        while(true){
-            //cout << "pos: " << pos << " maxSize: " << maxSize << endl;
-            if(pos == maxSize){
-                maxSize = maxSize * resize_increase;
-                lists = newTable;
-                return;
-            }
+    void insertEntry(const Entry& toinsert)
+    {
+        int pos = toinsert.hashval % maxSize;
+        lists[pos].push_front(toinsert);
+        currentSize++;
+    }
 
-            if(!lists[pos].empty()){
-                //cout << "List " << pos << " isn't empty." << endl;
-                while(lists[pos].empty() == false){
-                    Entry en = lists[pos].front();
-                    lists[pos].pop_front();
-                    int newPos = en.hashval % (maxSize * 2);
-                    //cout << "Inserting " << en.value << " in position << " << newPos << " hashval: " << en.hashval << endl;
-                    newTable[newPos].push_front(en);
-                }
-            } else {
-                //cout << "List " << pos << " is empty" << endl;
+    // O(N) + O(k) ? yes
+    void resize()
+    {
+        // save everything
+        forward_list<Entry>* oldtable = lists;
+        int oldmaxSize;
+        int oldcurrentSize;
+
+        // reset stuff to have a clean state
+        maxSize = oldmaxSize * resize_increase;
+        currentSize = 0;
+
+        // increase the size of the table
+        lists = new forward_list<Entry>[maxSize];
+
+        // copy everything back up
+        for (int i = 0; i<oldmaxSize;i++)
+        {
+            while (!lists[i].empty())
+            {
+                insertEntry(lists[i].front());
+                lists[i].pop_front();
             }
-            pos++;
         }
     }
 };

@@ -44,7 +44,7 @@ public:
     {
         uint512_t zero;
         zero = 0;
-        difficulty = 6;
+        difficulty = 2;
         current_block_id = 0;
         n_transact = 0;
 
@@ -58,7 +58,7 @@ public:
         {
             // push the block to the blocks vector
             uint512_t old_hash = performPOW();
-            blocks[current_block_id]->display();
+            // blocks[current_block_id]->display();
             Block* newblock = new Block(current_block_id,old_hash);
             blocks.push_back(newblock);
 
@@ -238,7 +238,7 @@ private:
         to_string(hash_);
         std::string block_to_insert_hash = to_string(hash_);
         // skip 0x
-        for (int i = 2; i<difficulty; i++)
+        for (int i = 2; i<difficulty+2; i++)
         {
             if (block_to_insert_hash[i] != '0') return false;
         }
